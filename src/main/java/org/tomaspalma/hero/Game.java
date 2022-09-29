@@ -3,6 +3,7 @@ package org.tomaspalma.hero;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -35,18 +36,41 @@ public class Game {
     }
 
     public void run() throws IOException {
-        KeyStroke key;
+        while(isGameSupposedToRun) {
+            KeyStroke key;
 
-        draw();
-        key = screen.readInput(); processKey(key);
+            draw();
+            key = screen.readInput(); processKey(key);
+        }
     }
 
     // Processar uma tecla lida pelo programada
-    private void processKey(KeyStroke key) {
-        System.out.println(key);
+    private void processKey(KeyStroke key) throws IOException {
+        switch(key.getKeyType()) {
+            case ArrowUp:
+                y--; // o eixo dos y esta invertido
+                break;
+            case ArrowDown:
+                y++;
+                break;
+            case ArrowLeft:
+                x--;
+                break;
+            case ArrowRight:
+                x++;
+                break;
+            case Character:
+                char character = key.getCharacter();
+                if(character == 'q' || character == 'Q') screen.close();
+                break;
+            case EOF:
+                isGameSupposedToRun = false;
+                break;
+        }
     }
 
     //Attributes
     private Screen screen;
     private int x = 10, y = 10;
+    private boolean isGameSupposedToRun = true;
 }
