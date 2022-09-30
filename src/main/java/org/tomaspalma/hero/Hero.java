@@ -34,9 +34,5 @@ public class Hero {
 
     }
 
-    public void draw(Screen screen) {
-        screen.setCharacter(currentPosition.getX(), currentPosition.getY(), TextCharacter.fromCharacter('X')[0]);
-    }
-
     private Position currentPosition;
 }

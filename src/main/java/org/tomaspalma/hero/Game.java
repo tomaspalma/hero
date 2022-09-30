@@ -28,10 +28,15 @@ public class Game {
             e.printStackTrace();
         }
     }
+
+    public void setGameSupposedToRun(boolean gameSupposedToRun) {
+        isGameSupposedToRun = gameSupposedToRun;
+    }
+
     //Methods
     private void draw() throws IOException {
         screen.clear();
-        hero.draw(screen);
+        arena.draw(screen);
         screen.refresh();
     }
 
@@ -40,42 +45,29 @@ public class Game {
             KeyStroke key;
 
             draw();
-            key = screen.readInput(); processKey(key);
-        }
-    }
+            key = screen.readInput();
 
-    private void moveHero(Position position) {
-        hero.setCurrentPosition(position);
+            switch(key.getKeyType()) {
+                case Character:
+                    char character = key.getCharacter();
+                    if (character == 'q' || character == 'Q') screen.close();
+                    break;
+                case EOF:
+                    isGameSupposedToRun = false;
+                    break;
+                default:
+                    arena.processKey(key);
+            }
+        }
     }
 
     // Processar uma tecla lida pelo programada
     private void processKey(KeyStroke key) throws IOException {
-        switch(key.getKeyType()) {
-            case ArrowUp:
-                moveHero(hero.moveUp()); // o eixo dos y esta invertido
-                break;
-            case ArrowDown:
-                moveHero(hero.moveDown());
-                break;
-            case ArrowLeft:
-                moveHero(hero.moveLeft());
-                break;
-            case ArrowRight:
-                moveHero(hero.moveRight());
-                break;
-            case Character:
-                char character = key.getCharacter();
-                if(character == 'q' || character == 'Q') screen.close();
-                break;
-            case EOF:
-                isGameSupposedToRun = false;
-                break;
-        }
+        arena.processKey(key);
     }
 
     //Attributes
     private Screen screen;
-    private int x = 10, y = 10;
     private boolean isGameSupposedToRun = true;
-    private Hero hero = new Hero(10, 10);
+    private Arena arena = new Arena(40, 20);
 }
