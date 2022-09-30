@@ -36,7 +36,7 @@ public class Game {
     //Methods
     private void draw() throws IOException {
         screen.clear();
-        arena.draw(screen);
+        arena.draw(screen.newTextGraphics());
         screen.refresh();
     }
 
