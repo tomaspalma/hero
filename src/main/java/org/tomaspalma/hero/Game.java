@@ -31,7 +31,7 @@ public class Game {
     //Methods
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
         screen.refresh();
     }
 
@@ -44,20 +44,24 @@ public class Game {
         }
     }
 
+    private void moveHero(Position position) {
+        hero.setCurrentPosition(position);
+    }
+
     // Processar uma tecla lida pelo programada
     private void processKey(KeyStroke key) throws IOException {
         switch(key.getKeyType()) {
             case ArrowUp:
-                y--; // o eixo dos y esta invertido
+                moveHero(hero.moveUp()); // o eixo dos y esta invertido
                 break;
             case ArrowDown:
-                y++;
+                moveHero(hero.moveDown());
                 break;
             case ArrowLeft:
-                x--;
+                moveHero(hero.moveLeft());
                 break;
             case ArrowRight:
-                x++;
+                moveHero(hero.moveRight());
                 break;
             case Character:
                 char character = key.getCharacter();
@@ -73,4 +77,5 @@ public class Game {
     private Screen screen;
     private int x = 10, y = 10;
     private boolean isGameSupposedToRun = true;
+    private Hero hero = new Hero(10, 10);
 }
