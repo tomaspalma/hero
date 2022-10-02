@@ -21,5 +21,16 @@ public class Position {
         this.x = x;
     }
 
+    @Override
+    public boolean equals(Object objectToCompareWith) {
+        if(this == objectToCompareWith) return true;
+        //Não podemos chamar métodos a objetos que sejam nulos
+        if(objectToCompareWith == null) return false;
+
+        if(getClass() != objectToCompareWith.getClass()) return false;
+
+        return this.x == ((Position)objectToCompareWith).getX() && this.y == ((Position)objectToCompareWith).getY();
+    }
+
     private int x, y;
 }

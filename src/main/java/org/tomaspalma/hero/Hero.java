@@ -7,17 +7,9 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-public class Hero {
+public class Hero extends Element {
     public Hero(int x, int y) {
-        currentPosition = new Position(x, y);
-    }
-
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public Position getCurrentPosition() {
-        return currentPosition;
+        super(x, y);
     }
 
     public Position moveUp() {
@@ -30,15 +22,6 @@ public class Hero {
 
     public Position moveRight() {
         return new Position(currentPosition.getX() + 1, currentPosition.getY());
-
-    }
-
-    public void draw(TextGraphics graphics) {
-        // Cor padrão é branco, por isso senão quisermos branco fazemos isto
-        // Se quiséssemos que o hero fosse um retângulo colocariamos backgroundcolor
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
-        graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
     }
 
     public Position moveLeft() {
@@ -46,5 +29,12 @@ public class Hero {
 
     }
 
-    private Position currentPosition;
+    @Override
+    public void draw(TextGraphics graphics) {
+        // Cor padrão é branco, por isso senão quisermos branco fazemos isto
+        // Se quiséssemos que o hero fosse um retângulo colocariamos backgroundcolor
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
+    }
 }

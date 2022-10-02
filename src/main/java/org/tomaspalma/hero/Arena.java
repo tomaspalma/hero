@@ -9,12 +9,32 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Arena {
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
+        this.walls = createWalls();
+    }
+
+    private List<Wall> createWalls() {
+        List<Wall> walls = new ArrayList<>();
+
+        //Adicionar paredes em toda a horizontal
+        for(int i = 0; i < width; i++) {
+            walls.add(new Wall(i, 0));
+            walls.add(new Wall(i, height - 1));
+        }
+
+        //Adicionar paredes em toda a vertical
+        for(int i = 0; i < height - 1; i++) {
+            walls.add(new Wall(0, i));
+            walls.add(new Wall(width - 1, i));
+        }
+
+        return walls;
     }
 
     public void draw(TextGraphics graphics) {
@@ -22,6 +42,9 @@ public class Arena {
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         hero.draw(graphics);
+        for(Wall wall: walls) {
+            wall.draw(graphics);
+        }
     }
 
     public void processKey(KeyStroke key) {
@@ -48,7 +71,12 @@ public class Arena {
     }
 
     private boolean canHeroMoveTo(Position position) {
-        return position.getX() >= 0 && position.getX() < width && position.getY() >= 0 && position.getY() < height;
+        for(Wall wall: walls) {
+            if(wall.getCurrentPosition().equals(position)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Position getHeroPosition() {
@@ -56,6 +84,6 @@ public class Arena {
     }
 
     private int width, height;
-    private Hero hero = new Hero(0, 0);
+    private Hero hero = new Hero(10, 10);
     private List<Wall> walls;
 }
