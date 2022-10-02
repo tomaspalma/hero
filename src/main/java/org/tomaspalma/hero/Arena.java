@@ -1,5 +1,6 @@
 package org.tomaspalma.hero;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -16,6 +17,7 @@ public class Arena {
         this.height = height;
         this.walls = createWalls();
         this.coins = createCoins();
+        score = 0;
     }
 
     private List<Wall> createWalls() {
@@ -23,12 +25,12 @@ public class Arena {
 
         //Adicionar paredes em toda a horizontal
         for(int i = 0; i < width; i++) {
-            walls.add(new Wall(i, 0, "-"));
+            walls.add(new Wall(i, 1, "-"));
             walls.add(new Wall(i, height - 1, "-"));
         }
 
         //Adicionar paredes em toda a vertical
-        for(int i = 1; i < height - 1; i++) {
+        for(int i = 2; i < height - 1; i++) {
             walls.add(new Wall(0, i, "|"));
             walls.add(new Wall(width - 1, i, "|"));
         }
@@ -54,6 +56,7 @@ public class Arena {
 
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         for(Coin coin: coins) {
@@ -63,6 +66,11 @@ public class Arena {
         for(Wall wall: walls) {
             wall.draw(graphics);
         }
+
+        // Texto de informação sobre o jogador
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+                graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
     }
 
     public void processKey(KeyStroke key) {
@@ -78,6 +86,7 @@ public class Arena {
         for(int i = 0; i < coins.size(); i++) {
             if(coins.get(i).getCurrentPosition().equals(heroPosition)) {
                 coins.remove(i);
+                score++;
                 break;
             }
         }
@@ -105,4 +114,5 @@ public class Arena {
     private final Hero hero = new Hero(10, 10);
     private final List<Wall> walls;
     private final List<Coin> coins;
+    private int score;
 }

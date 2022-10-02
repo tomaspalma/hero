@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Game {
     public Game() {
         try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
+            TerminalSize terminalSize = new TerminalSize(40, 25);
             DefaultTerminalFactory terminalFactory = new
                     DefaultTerminalFactory()
                     .setInitialTerminalSize(terminalSize);
@@ -69,6 +69,6 @@ public class Game {
     //Attributes
     private Screen screen;
     private boolean isGameSupposedToRun = true;
-    private Arena arena = new Arena(40, 20);
+    private Arena arena = new Arena(40, 25);
     public static int MAX_NO_OF_COINS = 5;
 }
