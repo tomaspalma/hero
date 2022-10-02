@@ -24,14 +24,14 @@ public class Arena {
 
         //Adicionar paredes em toda a horizontal
         for(int i = 0; i < width; i++) {
-            walls.add(new Wall(i, 0));
-            walls.add(new Wall(i, height - 1));
+            walls.add(new Wall(i, 0, "-"));
+            walls.add(new Wall(i, height - 1, "-"));
         }
 
         //Adicionar paredes em toda a vertical
-        for(int i = 0; i < height - 1; i++) {
-            walls.add(new Wall(0, i));
-            walls.add(new Wall(width - 1, i));
+        for(int i = 1; i < height - 1; i++) {
+            walls.add(new Wall(0, i, "|"));
+            walls.add(new Wall(width - 1, i, "|"));
         }
 
         return walls;

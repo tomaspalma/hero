@@ -33,7 +33,7 @@ public class Hero extends Element {
     public void draw(TextGraphics graphics) {
         // Cor padrão é branco, por isso senão quisermos branco fazemos isto
         // Se quiséssemos que o hero fosse um retângulo colocariamos backgroundcolor
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
     }
