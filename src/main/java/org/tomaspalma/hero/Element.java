@@ -16,7 +16,7 @@ public abstract class Element {
 
     public abstract void draw(TextGraphics graphics);
 
-    public Position getCurrentPosition() {
+    protected Position getCurrentPosition() {
         return currentPosition;
     }
 

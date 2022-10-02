@@ -11,12 +11,14 @@ import com.googlecode.lanterna.screen.Screen;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
+        this.coins = createCoins();
     }
 
     private List<Wall> createWalls() {
@@ -37,10 +39,22 @@ public class Arena {
         return walls;
     }
 
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        List<Coin> coins = new ArrayList<>();
+        for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
+            coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        }
+        return coins;
+    }
+
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+        for(Coin coin: coins) {
+            coin.draw(graphics);
+        }
         hero.draw(graphics);
         for(Wall wall: walls) {
             wall.draw(graphics);
@@ -64,9 +78,22 @@ public class Arena {
         }
     }
 
+    private void retrieveCoins(Position heroPosition) {
+        int coinToRemove = 0;
+        for(int i = 0; i < coins.size(); i++) {
+            if(coins.get(i).getCurrentPosition().equals(heroPosition)) {
+                coins.remove(i);
+                break;
+            }
+        }
+
+
+    }
+
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
             hero.setCurrentPosition(position);
+            retrieveCoins(position);
         }
     }
 
@@ -86,4 +113,5 @@ public class Arena {
     private int width, height;
     private Hero hero = new Hero(10, 10);
     private List<Wall> walls;
+    private List<Coin> coins;
 }
