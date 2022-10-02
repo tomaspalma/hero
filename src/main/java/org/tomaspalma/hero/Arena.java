@@ -2,13 +2,10 @@ package org.tomaspalma.hero;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +37,7 @@ public class Arena {
     }
 
     private List<Coin> createCoins() {
-        List<Coin> coins = new ArrayList<>();;
+        List<Coin> coins = new ArrayList<>();
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_COINS;) {
             int x = random.nextInt(width - 2) + 1, y = random.nextInt(height - 2) + 1;
@@ -69,24 +66,15 @@ public class Arena {
     }
 
     public void processKey(KeyStroke key) {
-        switch(key.getKeyType()) {
-            case ArrowUp:
-                moveHeroTo(hero.moveUp()); // o eixo dos y esta invertido
-                break;
-            case ArrowDown:
-                moveHeroTo(hero.moveDown());
-                break;
-            case ArrowLeft:
-                moveHeroTo(hero.moveLeft());
-                break;
-            case ArrowRight:
-                moveHeroTo(hero.moveRight());
-                break;
+        switch (key.getKeyType()) {
+            case ArrowUp -> moveHeroTo(hero.moveUp());
+            case ArrowDown -> moveHeroTo(hero.moveDown());
+            case ArrowLeft -> moveHeroTo(hero.moveLeft());
+            case ArrowRight -> moveHeroTo(hero.moveRight());
         }
     }
 
     private void retrieveCoins(Position heroPosition) {
-        int coinToRemove = 0;
         for(int i = 0; i < coins.size(); i++) {
             if(coins.get(i).getCurrentPosition().equals(heroPosition)) {
                 coins.remove(i);
@@ -113,12 +101,8 @@ public class Arena {
         return true;
     }
 
-    public Position getHeroPosition() {
-        return hero.getCurrentPosition();
-    }
-
-    private int width, height;
-    private Hero hero = new Hero(10, 10);
-    private List<Wall> walls;
-    private List<Coin> coins;
+    private final int width, height;
+    private final Hero hero = new Hero(10, 10);
+    private final List<Wall> walls;
+    private final List<Coin> coins;
 }

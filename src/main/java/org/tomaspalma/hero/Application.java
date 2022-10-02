@@ -1,4 +1,4 @@
-//package org.tomaspalma.hero;
+//zpackage org.tomaspalma.hero;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
