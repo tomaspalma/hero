@@ -40,10 +40,17 @@ public class Arena {
     }
 
     private List<Coin> createCoins() {
+        List<Coin> coins = new ArrayList<>();;
         Random random = new Random();
-        List<Coin> coins = new ArrayList<>();
-        for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
-            coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        for(int i = 0; i < Game.MAX_NO_OF_COINS;) {
+            int x = random.nextInt(width - 2) + 1, y = random.nextInt(height - 2) + 1;
+            Position currentGeneratedPosition = new Position(x, y);
+
+            if(hero.getCurrentPosition().equals(currentGeneratedPosition)) continue;
+            else if(coins.size() != 0 && coins.get(coins.size() - 1).getCurrentPosition().equals(currentGeneratedPosition)) continue;
+
+            coins.add(new Coin(x, y));
+            i++;
         }
         return coins;
     }
