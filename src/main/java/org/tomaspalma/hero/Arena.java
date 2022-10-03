@@ -17,6 +17,7 @@ public class Arena {
         this.height = height;
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
         score = 0;
     }
 
@@ -40,18 +41,37 @@ public class Arena {
 
     private List<Coin> createCoins() {
         List<Coin> coins = new ArrayList<>();
-        Random random = new Random();
-        for(int i = 0; i < Game.MAX_NO_OF_COINS;) {
-            int x = random.nextInt(width - 2) + 1, y = random.nextInt(height - 2) + 1;
-            Position currentGeneratedPosition = new Position(x, y);
-
-            if(hero.getCurrentPosition().equals(currentGeneratedPosition)) continue;
-            else if(coins.size() != 0 && coins.get(coins.size() - 1).getCurrentPosition().equals(currentGeneratedPosition)) continue;
-
-            coins.add(new Coin(x, y));
-            i++;
+        for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
+            Position validPosition = generateValidPositionOf(coins);
+            coins.add(new Coin(validPosition.getX(), validPosition.getY()));
         }
         return coins;
+    }
+
+    private List<Monster> createMonsters() {
+        List<Monster> monsters = new ArrayList<>();
+        for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
+            Position validPosition = generateValidPositionOf(monsters);
+            monsters.add(new Monster(validPosition.getX(), validPosition.getY()));
+        }
+        return monsters;
+    }
+
+    private <T extends Element> Position generateValidPositionOf(List<T> elements) {
+        Position generatedPosition;
+        Random random = new Random();
+        while(true) {
+            int x = random.nextInt(width - 2) + 1, y = random.nextInt(height - 2) + 1;
+            generatedPosition = new Position(x, y);
+
+            if (hero.getCurrentPosition().equals(generatedPosition)) continue;
+            else if (elements.size() != 0 && elements.get(elements.size() - 1).getCurrentPosition().equals(generatedPosition))
+                continue;
+
+            break;
+        }
+
+        return generatedPosition;
     }
 
     public void draw(TextGraphics graphics) {
@@ -63,9 +83,13 @@ public class Arena {
             coin.draw(graphics);
         }
         hero.draw(graphics);
+        for(Monster monster: monsters) {
+            monster.draw(graphics);
+        }
         for(Wall wall: walls) {
             wall.draw(graphics);
         }
+
 
         // Texto de informação sobre o jogador
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
@@ -110,9 +134,14 @@ public class Arena {
         return true;
     }
 
+    public void moveMonsters() {
+
+    }
+
     private final int width, height;
     private final Hero hero = new Hero(10, 10);
     private final List<Wall> walls;
     private final List<Coin> coins;
+    private List<Monster> monsters;
     private int score;
 }
