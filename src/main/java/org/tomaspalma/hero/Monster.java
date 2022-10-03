@@ -13,6 +13,13 @@ public class Monster extends Element {
     }
 
     public Position move() {
+        Random random = new Random();
+        //Tentamos mover verticalmente
+        if(random.nextInt(1) + 1 == 1) {
+
+        } else { //tentamos mover horizontalmente
+
+        }
         return new Position(0, 0);
     }
 
