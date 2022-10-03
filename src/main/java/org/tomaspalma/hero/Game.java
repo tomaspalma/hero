@@ -70,5 +70,5 @@ public class Game {
     private Screen screen;
     private boolean isGameSupposedToRun = true;
     private Arena arena = new Arena(40, 25);
-    public static int MAX_NO_OF_COINS = 5;
+    public static int MAX_NO_OF_COINS = 5, MAX_NO_OF_MONSTERS = 4;
 }
