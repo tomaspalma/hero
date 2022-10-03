@@ -33,7 +33,7 @@ public class Game {
         isGameSupposedToRun = gameSupposedToRun;
     }
 
-    //Methods
+    //Limpa o screen e torna-o pronto para a arena ser desenhada
     private void draw() throws IOException {
         screen.clear();
         arena.draw(screen.newTextGraphics());
@@ -47,21 +47,19 @@ public class Game {
             draw();
             key = screen.readInput();
 
-            switch(key.getKeyType()) {
-                case Character:
+            // Encarrega-se de fechar o jogo quando o utilizador assim quiser
+            switch (key.getKeyType()) {
+                case Character -> {
                     char character = key.getCharacter();
                     if (character == 'q' || character == 'Q') screen.close();
-                    break;
-                case EOF:
-                    isGameSupposedToRun = false;
-                    break;
-                default:
-                    arena.processKey(key);
+                }
+                case EOF -> isGameSupposedToRun = false;
+                default -> arena.processKey(key);
             }
         }
     }
 
-    // Processar uma tecla lida pelo programada
+    // Enviar a tecla para a lógica da arena para influenciar o jogo mediante a tecla
     private void processKey(KeyStroke key) throws IOException {
         arena.processKey(key);
     }

@@ -12,6 +12,9 @@ public class Hero extends Element {
         super(x, y);
     }
 
+
+    // As quatro seguintes funções retornam a posição hipotética que o herói estivesse se movesse no sentido especificado
+    // pelo nome das funções
     public Position moveUp() {
         return new Position(currentPosition.getX(), currentPosition.getY() - 1);
     }

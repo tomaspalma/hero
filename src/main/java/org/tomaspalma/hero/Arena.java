@@ -57,6 +57,8 @@ public class Arena {
         return monsters;
     }
 
+    // Verifica se a posição que um elemento vai ser gerado não vai estar em cima de nenhum outro objeto na arena
+    // As paredes não contam por que já estamos a evitá-las com os limites postos na geração aleatória (width - 2) e (height - 2)
     private <T extends Element> Position generateValidPositionOf(List<T> elements) {
         Position generatedPosition;
         Random random = new Random();
@@ -75,28 +77,38 @@ public class Arena {
     }
 
     public void draw(TextGraphics graphics) {
+        // Definir cor do chão da arena
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
 
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+
+        // Colocar as moedas no ecrã
         for(Coin coin: coins) {
             coin.draw(graphics);
         }
+
+        // Colocar o hero no ecrã
         hero.draw(graphics);
+
+        // Colocar os monstros no ecrã
         for(Monster monster: monsters) {
             monster.draw(graphics);
         }
+
+        // Colocar os delimitadores da arena no ecrã
         for(Wall wall: walls) {
             wall.draw(graphics);
         }
 
 
-        // Texto de informação sobre o jogador
+        // Colocar no ecrã a indicação da pontuação do jogador
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
     }
 
+    // O intellij sugeriu isto, antes estava um switch "normal"
     public void processKey(KeyStroke key) {
         switch (key.getKeyType()) {
             case ArrowUp -> moveHeroTo(hero.moveUp());
@@ -106,6 +118,7 @@ public class Arena {
         }
     }
 
+    // Se uma moeda estiver na mesma posição que o jogador, remove-a
     private void retrieveCoins(Position heroPosition) {
         for(int i = 0; i < coins.size(); i++) {
             if(coins.get(i).getCurrentPosition().equals(heroPosition)) {
@@ -114,10 +127,9 @@ public class Arena {
                 break;
             }
         }
-
-
     }
 
+    // Se o herói se poder mover, movemo-lo
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
             hero.setCurrentPosition(position);
