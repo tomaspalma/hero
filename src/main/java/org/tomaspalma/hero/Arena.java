@@ -209,7 +209,7 @@ public class Arena {
             hero.setCurrentPosition(position.getX(), position.getY());
             if(verifyMonsterCollisions(hero.getCurrentPosition())) {
                 arenaStage = ArenaStages.LOST;
-            }
+            }3
             retrieveCoins(hero.getCurrentPosition());
         }
     }

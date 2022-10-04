@@ -13,13 +13,7 @@ public class Monster extends Element {
     }
 
     public void move(Position heroPosition) {
-        Random random = new Random();
-        int control = random.nextInt(5) + 1;
-        if(control <= 3) {
-            simpleMove();
-        } else {
-            complexMove(heroPosition);
-        }
+        complexMove(heroPosition);
     }
 
     public void simpleMove() {
@@ -42,18 +36,21 @@ public class Monster extends Element {
     }
 
     public void complexMove(Position heroPosition) {
+        Random random = new Random();
+        int control = random.nextInt(2) + 1, newX = currentPosition.getX(), newY = currentPosition.getY();
         Position currentPosition = getCurrentPosition();
-        int newX, newY;
-        if(currentPosition.isAbove(heroPosition)) {
-            newY = currentPosition.getY() + 1;
+        if(control == 1) {
+            if(currentPosition.isAbove(heroPosition)) {
+                newY = currentPosition.getY() + 1;
+            } else {
+                newY = currentPosition.getY() - 1;
+            }
         } else {
-            newY = currentPosition.getY() - 1;
-        }
-
-        if(currentPosition.isLeft(heroPosition)) {
-            newX = getCurrentPosition().getX() + 1;
-        } else {
-            newX = getCurrentPosition().getX() - 1;
+            if(currentPosition.isLeft(heroPosition)) {
+                newX = getCurrentPosition().getX() + 1;
+            } else {
+                newX = getCurrentPosition().getX() - 1;
+            }
         }
 
         setCurrentPosition(newX, newY);
