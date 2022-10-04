@@ -13,6 +13,14 @@ public class Hero extends Element {
         this.energy = 100;
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
 
     // As quatro seguintes funções retornam a posição hipotética que o herói estivesse se movesse no sentido especificado
     // pelo nome das funções

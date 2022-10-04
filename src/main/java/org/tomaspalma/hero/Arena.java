@@ -88,6 +88,10 @@ public class Arena {
             if(coins.get(i).getCurrentPosition().equals(position)) return false;
         }
 
+        for(int i = 0; i < walls.size(); i++) {
+            if(walls.get(i).getCurrentPosition().equals(position)) return false;
+        }
+
         return true;
     }
 
@@ -121,6 +125,10 @@ public class Arena {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(28, 0), "Energy: " + hero.getEnergy());
     }
 
     public void processKey(KeyStroke key) {
