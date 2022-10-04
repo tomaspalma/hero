@@ -23,6 +23,14 @@ public class Arena {
         score = 0;
     }
 
+    // Clear arena to be drawn again
+    public void reset() {
+        coins.clear(); createCoins();
+        monsters.clear(); createMonsters();
+        score = 0; hero.setEnergy(100);
+        arenaStage = ArenaStages.PLAYING;
+    }
+
     private List<Wall> createWalls() {
         List<Wall> walls = new ArrayList<>();
 
@@ -103,22 +111,39 @@ public class Arena {
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
 
-        // Colocar as moedas no ecrã
-        for(Coin coin: coins) {
-            coin.draw(graphics);
-        }
+        switch(arenaStage) {
+            case PLAYING:
+                // Colocar as moedas no ecrã
+                for(Coin coin: coins) {
+                    coin.draw(graphics);
+                }
 
-        // Colocar o hero no ecrã
-        hero.draw(graphics);
+                // Colocar o hero no ecrã
+                hero.draw(graphics);
 
-        // Colocar os monstros no ecrã
-        for(Monster monster: monsters) {
-            monster.draw(graphics);
-        }
+                // Colocar os monstros no ecrã
+                for(Monster monster: monsters) {
+                    monster.draw(graphics);
+                }
 
-        // Colocar os delimitadores da arena no ecrã
-        for(Wall wall: walls) {
-            wall.draw(graphics);
+                // Colocar os delimitadores da arena no ecrã
+                for(Wall wall: walls) {
+                    wall.draw(graphics);
+                }
+                break;
+            case LOST:
+                graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+                graphics.enableModifiers(SGR.BOLD);
+                graphics.putString(new TerminalPosition(5, 10), "You hit a monster! You lose!");
+                graphics.putString(new TerminalPosition(5, 11), "Press R to restart or Q to quit");
+                break;
+            case WON:
+                graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+                graphics.enableModifiers(SGR.BOLD);
+                graphics.putString(new TerminalPosition(4, 10), "You collected all coins the coins!");
+                graphics.putString(new TerminalPosition(4, 11), "You won!");
+                graphics.putString(new TerminalPosition(5, 12), "Press R to restart or Q to quit");
+                break;
         }
 
         // Colocar no ecrã a indicação da pontuação do jogador
@@ -151,12 +176,14 @@ public class Arena {
                 break;
         }
         if(coins.size() == 0) {
-            this.exitMessage = "You collected all the coins without dying! You won!";
-            isGameSupposedToRun = false;
+            arenaStage = ArenaStages.WON;
+            /*this.exitMessage = "You collected all the coins without dying! You won!";
+            isGameSupposedToRun = false;*/
         }
         if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-            this.exitMessage = "You hit a monster! You lose!";
-            this.isGameSupposedToRun = false;
+            arenaStage = ArenaStages.LOST;
+            /*this.exitMessage = "You hit a monster! You lose!";
+            this.isGameSupposedToRun = false;*/
         }
     }
 
@@ -186,8 +213,9 @@ public class Arena {
             hero.setCurrentPosition(position.getX(), position.getY());
             retrieveCoins(hero.getCurrentPosition());
             if(verifyMonsterCollisions(position)) {
-                this.exitMessage = "You hit a monster! You lose!";
-                this.isGameSupposedToRun = false;
+                arenaStage = ArenaStages.LOST;
+                /*this.exitMessage = "You hit a monster! You lose!";
+                this.isGameSupposedToRun = false;*/
             }
         }
     }
@@ -207,6 +235,12 @@ public class Arena {
         }
     }
 
+    public enum ArenaStages {
+        LOST,
+        WON,
+        PLAYING
+    }
+
     private final int width, height;
     private final Hero hero = new Hero(10, 10);
     private final List<Wall> walls;
@@ -215,4 +249,5 @@ public class Arena {
     private int score;
     public boolean isGameSupposedToRun;
     public String exitMessage;
+    public ArenaStages arenaStage = ArenaStages.PLAYING;
 }

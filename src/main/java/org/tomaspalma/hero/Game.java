@@ -47,7 +47,10 @@ public class Game {
             switch (key.getKeyType()) {
                 case Character -> {
                     char character = key.getCharacter();
-                    if (character == 'q' || character == 'Q') break;
+                    if (character == 'q' || character == 'Q') screen.close();
+                    else if(character == 'R' || character == 'r') {
+                        arena.reset();
+                    }
                 }
                 case EOF -> arena.isGameSupposedToRun = false;
                 default -> arena.processKey(key);
