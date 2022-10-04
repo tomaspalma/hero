@@ -45,15 +45,19 @@ public class Game {
 
             // Encarrega-se de fechar o jogo quando o utilizador assim quiser
             switch (key.getKeyType()) {
-                case Character -> {
+                case Character:
                     char character = key.getCharacter();
                     if (character == 'q' || character == 'Q') screen.close();
                     else if(character == 'R' || character == 'r') {
                         arena.reset();
                     }
-                }
-                case EOF -> arena.isGameSupposedToRun = false;
-                default -> arena.processKey(key);
+                    break;
+                case EOF:
+                    arena.isGameSupposedToRun = false;
+                    break;
+                default:
+                    arena.processKey(key);
+                    break;
             }
         }
         screen.close();
