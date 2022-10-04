@@ -18,6 +18,8 @@ public class Arena {
         this.walls = createWalls();
         this.coins = createCoins();
         this.monsters = createMonsters();
+        this.isGameSupposedToRun = true;
+        exitMessage = "";
         score = 0;
     }
 
@@ -85,6 +87,12 @@ public class Arena {
     }
 
     public void draw(TextGraphics graphics) {
+
+        if(coins.size() == 0) {
+            this.exitMessage = "You collected all the coins without dying! You won!";
+            isGameSupposedToRun = false;
+        }
+
         // Definir cor do chão da arena
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
 
@@ -109,11 +117,15 @@ public class Arena {
             wall.draw(graphics);
         }
 
-
         // Colocar no ecrã a indicação da pontuação do jogador
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
+
+        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
+            this.exitMessage = "You hit a monster! You lose!";
+            this.isGameSupposedToRun = false;
+        }
     }
 
     public void processKey(KeyStroke key) {
@@ -161,9 +173,6 @@ public class Arena {
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
             hero.setCurrentPosition(position.getX(), position.getY());
-            if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-                System.exit(0);
-            }
             retrieveCoins(hero.getCurrentPosition());
         }
     }
@@ -189,4 +198,6 @@ public class Arena {
     private final List<Coin> coins;
     private List<Monster> monsters;
     private int score;
+    public boolean isGameSupposedToRun;
+    public String exitMessage;
 }

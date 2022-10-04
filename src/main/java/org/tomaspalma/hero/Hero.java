@@ -10,6 +10,7 @@ import com.googlecode.lanterna.screen.Screen;
 public class Hero extends Element {
     public Hero(int x, int y) {
         super(x, y);
+        this.energy = 100;
     }
 
 
@@ -40,4 +41,6 @@ public class Hero extends Element {
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
     }
+
+    private int energy;
 }

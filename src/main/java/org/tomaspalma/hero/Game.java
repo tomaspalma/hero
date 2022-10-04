@@ -29,10 +29,6 @@ public class Game {
         }
     }
 
-    public void setGameSupposedToRun(boolean gameSupposedToRun) {
-        isGameSupposedToRun = gameSupposedToRun;
-    }
-
     //Limpa o screen e torna-o pronto para a arena ser desenhada
     private void draw() throws IOException {
         screen.clear();
@@ -41,7 +37,7 @@ public class Game {
     }
 
     public void run() throws IOException {
-        while(isGameSupposedToRun) {
+        while(arena.isGameSupposedToRun) {
             KeyStroke key;
 
             draw();
@@ -51,12 +47,14 @@ public class Game {
             switch (key.getKeyType()) {
                 case Character -> {
                     char character = key.getCharacter();
-                    if (character == 'q' || character == 'Q') screen.close();
+                    if (character == 'q' || character == 'Q') break;
                 }
-                case EOF -> isGameSupposedToRun = false;
+                case EOF -> arena.isGameSupposedToRun = false;
                 default -> arena.processKey(key);
             }
         }
+        screen.close();
+        System.out.println(arena.exitMessage);
     }
 
     // Enviar a tecla para a lógica da arena para influenciar o jogo mediante a tecla
@@ -66,7 +64,6 @@ public class Game {
 
     //Attributes
     private Screen screen;
-    private boolean isGameSupposedToRun = true;
     public static int WIDTH = 40, HEIGHT = 25;
     private Arena arena = new Arena(WIDTH, HEIGHT);
     public static int MAX_NO_OF_COINS = 5, MAX_NO_OF_MONSTERS = 5;
