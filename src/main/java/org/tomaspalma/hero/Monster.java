@@ -12,10 +12,19 @@ public class Monster extends Element {
         super(x, y);
     }
 
-    public void move() {
+    public void move(Position heroPosition) {
+        Random random = new Random();
+        int control = random.nextInt(5) + 1;
+        if(control <= 4) {
+            simpleMove();
+        } else {
+            complexMove(heroPosition);
+        }
+    }
+
+    public void simpleMove() {
         Random random = new Random();
         int control = random.nextInt(4) + 1;
-        //Tentamos mover verticalmente
         switch(control) {
             case 1:
                 moveUp();
@@ -30,6 +39,24 @@ public class Monster extends Element {
                 moveLeft();
                 break;
         }
+    }
+
+    public void complexMove(Position heroPosition) {
+        Position currentPosition = getCurrentPosition();
+        int newX, newY;
+        if(currentPosition.isAbove(heroPosition)) {
+            newY = currentPosition.getY() + 1;
+        } else {
+            newY = currentPosition.getY() - 1;
+        }
+
+        if(currentPosition.isLeft(heroPosition)) {
+            newX = getCurrentPosition().getX() + 1;
+        } else {
+            newX = getCurrentPosition().getX() - 1;
+        }
+
+        setCurrentPosition(newX, newY);
     }
 
     private void moveUp() {
