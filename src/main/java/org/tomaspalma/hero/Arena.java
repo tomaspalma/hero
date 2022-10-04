@@ -72,7 +72,7 @@ public class Arena {
 
     private void createMonsters() {
         Random random = new Random();
-        for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
+        for(int i = 0; i < Game.MAX_NO_OF_MONSTERS; i++) {
             Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
             while(!generateValidPosition(generatePosition)) {
                 generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);

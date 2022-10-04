@@ -21,6 +21,16 @@ public class Position {
         this.x = x;
     }
 
+    public boolean isLeft(Position positionToCompare) {
+        if(x > positionToCompare.getX()) return false;
+        return true;
+    }
+
+    public boolean isAbove(Position positionToCompare) {
+        if(y > positionToCompare.getY()) return false;
+        return true;
+    }
+
     @Override
     public boolean equals(Object objectToCompareWith) {
         if(this == objectToCompareWith) return true;

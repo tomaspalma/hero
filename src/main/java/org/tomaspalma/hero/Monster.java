@@ -12,7 +12,7 @@ public class Monster extends Element {
         super(x, y);
     }
 
-    public Position move() {
+    public void move() {
         Random random = new Random();
         int control = random.nextInt(4) + 1;
         //Tentamos mover verticalmente
@@ -30,7 +30,6 @@ public class Monster extends Element {
                 moveLeft();
                 break;
         }
-        return new Position(0, 0);
     }
 
     private void moveUp() {
