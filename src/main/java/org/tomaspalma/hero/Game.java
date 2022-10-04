@@ -48,7 +48,7 @@ public class Game {
                 case Character:
                     char character = key.getCharacter();
                     if (character == 'q' || character == 'Q') screen.close();
-                    else if(character == 'R' || character == 'r') {
+                    else if(arena.arenaStage != Arena.ArenaStages.PLAYING && (character == 'R' || character == 'r')) {
                         arena.reset();
                     }
                     break;
