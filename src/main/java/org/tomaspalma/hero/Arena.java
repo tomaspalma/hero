@@ -88,16 +88,6 @@ public class Arena {
 
     public void draw(TextGraphics graphics) {
 
-        if(coins.size() == 0) {
-            this.exitMessage = "You collected all the coins without dying! You won!";
-            isGameSupposedToRun = false;
-        }
-
-        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-            this.exitMessage = "You hit a monster! You lose!";
-            this.isGameSupposedToRun = false;
-        }
-
         // Definir cor do chão da arena
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
 
@@ -147,6 +137,14 @@ public class Arena {
                 moveMonsters();
                 break;
         }
+        if(coins.size() == 0) {
+            this.exitMessage = "You collected all the coins without dying! You won!";
+            isGameSupposedToRun = false;
+        }
+        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
+            this.exitMessage = "You hit a monster! You lose!";
+            this.isGameSupposedToRun = false;
+        }
     }
 
     // Se uma moeda estiver na mesma posição que o jogador, remove-a
@@ -182,6 +180,10 @@ public class Arena {
             if(wall.getCurrentPosition().equals(position)) {
                 return false;
             }
+        }
+        if(verifyMonsterCollisions(position)) {
+            this.exitMessage = "You hit a monster! You lose!";
+            this.isGameSupposedToRun = false;
         }
         return true;
     }
