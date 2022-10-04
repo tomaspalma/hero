@@ -39,6 +39,14 @@ public class Arena {
         return walls;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     private List<Coin> createCoins() {
         List<Coin> coins = new ArrayList<>();
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
@@ -108,13 +116,24 @@ public class Arena {
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
     }
 
-    // O intellij sugeriu isto, antes estava um switch "normal"
     public void processKey(KeyStroke key) {
         switch (key.getKeyType()) {
-            case ArrowUp -> moveHeroTo(hero.moveUp());
-            case ArrowDown -> moveHeroTo(hero.moveDown());
-            case ArrowLeft -> moveHeroTo(hero.moveLeft());
-            case ArrowRight -> moveHeroTo(hero.moveRight());
+            case ArrowUp:
+                moveHeroTo(hero.moveUp());
+                moveMonsters();
+                break;
+            case ArrowDown:
+                moveHeroTo(hero.moveDown());
+                moveMonsters();
+                break;
+            case ArrowLeft:
+                moveHeroTo(hero.moveLeft());
+                moveMonsters();
+                break;
+            case ArrowRight:
+                moveHeroTo(hero.moveRight());
+                moveMonsters();
+                break;
         }
     }
 
@@ -129,11 +148,23 @@ public class Arena {
         }
     }
 
+    private boolean verifyMonsterCollisions(Position heroPosition) {
+        for(int i = 0; i < monsters.size(); i++) {
+            if(monsters.get(i).getCurrentPosition().equals(heroPosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Se o herói se poder mover, movemo-lo
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
-            hero.setCurrentPosition(position);
-            retrieveCoins(position);
+            hero.setCurrentPosition(position.getX(), position.getY());
+            if(verifyMonsterCollisions(hero.getCurrentPosition())) {
+                System.exit(0);
+            }
+            retrieveCoins(hero.getCurrentPosition());
         }
     }
 
@@ -147,7 +178,9 @@ public class Arena {
     }
 
     public void moveMonsters() {
-
+        for(int i = 0; i < monsters.size(); i++) {
+            monsters.get(i).move();
+        }
     }
 
     private final int width, height;

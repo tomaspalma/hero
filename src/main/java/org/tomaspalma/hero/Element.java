@@ -10,8 +10,9 @@ public abstract class Element {
         currentPosition = new Position(x, y);
     }
 
-    protected void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
+    protected void setCurrentPosition(int x, int y) {
+        currentPosition.setX(x);
+        currentPosition.setY(y);
     }
 
     public abstract void draw(TextGraphics graphics);
