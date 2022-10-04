@@ -93,6 +93,11 @@ public class Arena {
             isGameSupposedToRun = false;
         }
 
+        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
+            this.exitMessage = "You hit a monster! You lose!";
+            this.isGameSupposedToRun = false;
+        }
+
         // Definir cor do chão da arena
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
 
@@ -121,11 +126,6 @@ public class Arena {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
-
-        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-            this.exitMessage = "You hit a monster! You lose!";
-            this.isGameSupposedToRun = false;
-        }
     }
 
     public void processKey(KeyStroke key) {
