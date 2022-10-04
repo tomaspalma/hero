@@ -15,7 +15,7 @@ public class Monster extends Element {
     public void move(Position heroPosition) {
         Random random = new Random();
         int control = random.nextInt(5) + 1;
-        if(control <= 4) {
+        if(control <= 3) {
             simpleMove();
         } else {
             complexMove(heroPosition);

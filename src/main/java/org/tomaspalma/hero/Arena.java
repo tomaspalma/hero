@@ -23,6 +23,14 @@ public class Arena {
         score = 0;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     // Clear arena to be drawn again
     public void reset() {
         coins.clear(); createCoins();
@@ -49,21 +57,13 @@ public class Arena {
         return walls;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
     private void createCoins() {
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
-            Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
             if(i > 0) {
                 while(!generateValidPosition(generatedPosition)) {
-                    generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+                    generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2,height - 2) + 1);
                 }
             }
             coins.add(new Coin(generatedPosition.getX(), generatedPosition.getY()));
@@ -73,9 +73,9 @@ public class Arena {
     private void createMonsters() {
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_MONSTERS; i++) {
-            Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
             while(!generateValidPosition(generatePosition)) {
-                generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+                generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
             }
             monsters.add(new Monster(generatePosition.getX(), generatePosition.getY()));
         }
@@ -118,13 +118,13 @@ public class Arena {
                     coin.draw(graphics);
                 }
 
-                // Colocar o hero no ecrã
-                hero.draw(graphics);
-
                 // Colocar os monstros no ecrã
                 for(Monster monster: monsters) {
                     monster.draw(graphics);
                 }
+
+                // Colocar o hero no ecrã
+                hero.draw(graphics);
 
                 // Colocar os delimitadores da arena no ecrã
                 for(Wall wall: walls) {
@@ -177,13 +177,9 @@ public class Arena {
         }
         if(coins.size() == 0) {
             arenaStage = ArenaStages.WON;
-            /*this.exitMessage = "You collected all the coins without dying! You won!";
-            isGameSupposedToRun = false;*/
         }
         if(verifyMonsterCollisions(hero.getCurrentPosition())) {
             arenaStage = ArenaStages.LOST;
-            /*this.exitMessage = "You hit a monster! You lose!";
-            this.isGameSupposedToRun = false;*/
         }
     }
 
@@ -211,12 +207,10 @@ public class Arena {
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
             hero.setCurrentPosition(position.getX(), position.getY());
-            retrieveCoins(hero.getCurrentPosition());
-            if(verifyMonsterCollisions(position)) {
+            if(verifyMonsterCollisions(hero.getCurrentPosition())) {
                 arenaStage = ArenaStages.LOST;
-                /*this.exitMessage = "You hit a monster! You lose!";
-                this.isGameSupposedToRun = false;*/
             }
+            retrieveCoins(hero.getCurrentPosition());
         }
     }
 
