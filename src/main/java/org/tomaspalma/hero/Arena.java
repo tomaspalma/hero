@@ -185,6 +185,10 @@ public class Arena {
         if(canHeroMoveTo(position)) {
             hero.setCurrentPosition(position.getX(), position.getY());
             retrieveCoins(hero.getCurrentPosition());
+            if(verifyMonsterCollisions(position)) {
+                this.exitMessage = "You hit a monster! You lose!";
+                this.isGameSupposedToRun = false;
+            }
         }
     }
 
@@ -193,10 +197,6 @@ public class Arena {
             if(wall.getCurrentPosition().equals(position)) {
                 return false;
             }
-        }
-        if(verifyMonsterCollisions(position)) {
-            this.exitMessage = "You hit a monster! You lose!";
-            this.isGameSupposedToRun = false;
         }
         return true;
     }
