@@ -16,8 +16,8 @@ public class Arena {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
-        this.coins = createCoins();
-        this.monsters = createMonsters();
+        createCoins();
+        createMonsters();
         this.isGameSupposedToRun = true;
         exitMessage = "";
         score = 0;
@@ -49,41 +49,46 @@ public class Arena {
         return width;
     }
 
-    private List<Coin> createCoins() {
-        List<Coin> coins = new ArrayList<>();
+    private void createCoins() {
+        Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
-            Position validPosition = generateValidPositionOf(coins);
-            coins.add(new Coin(validPosition.getX(), validPosition.getY()));
+            Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            if(i > 0) {
+                while(!generateValidPosition(generatedPosition)) {
+                    generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+                }
+            }
+            coins.add(new Coin(generatedPosition.getX(), generatedPosition.getY()));
         }
-        return coins;
     }
 
-    private List<Monster> createMonsters() {
-        List<Monster> monsters = new ArrayList<>();
+    private void createMonsters() {
+        Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
-            Position validPosition = generateValidPositionOf(monsters);
-            monsters.add(new Monster(validPosition.getX(), validPosition.getY()));
+            Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            while(!generateValidPosition(generatePosition)) {
+                generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+            }
+            monsters.add(new Monster(generatePosition.getX(), generatePosition.getY()));
         }
-        return monsters;
     }
 
     // Verifica se a posição que um elemento vai ser gerado não vai estar em cima de nenhum outro objeto na arena
     // As paredes não contam por que já estamos a evitá-las com os limites postos na geração aleatória (width - 2) e (height - 2)
-    private <T extends Element> Position generateValidPositionOf(List<T> elements) {
-        Position generatedPosition;
+    private boolean generateValidPosition(Position position) {
         Random random = new Random();
-        while(true) {
-            int x = random.nextInt(width - 2) + 1, y = random.nextInt(height - 2) + 1;
-            generatedPosition = new Position(x, y);
 
-            if (hero.getCurrentPosition().equals(generatedPosition)) continue;
-            else if (elements.size() != 0 && elements.get(elements.size() - 1).getCurrentPosition().equals(generatedPosition))
-                continue;
+        if (hero.getCurrentPosition().equals(position)) return false;
 
-            break;
+        for(int i = 0; i < monsters.size(); i++) {
+            if(monsters.get(i).getCurrentPosition().equals(position)) return false;
         }
 
-        return generatedPosition;
+        for(int i = 0; i < coins.size(); i++) {
+            if(coins.get(i).getCurrentPosition().equals(position)) return false;
+        }
+
+        return true;
     }
 
     public void draw(TextGraphics graphics) {
@@ -197,8 +202,8 @@ public class Arena {
     private final int width, height;
     private final Hero hero = new Hero(10, 10);
     private final List<Wall> walls;
-    private final List<Coin> coins;
-    private List<Monster> monsters;
+    private List<Coin> coins = new ArrayList<>();
+    private List<Monster> monsters = new ArrayList<>();
     private int score;
     public boolean isGameSupposedToRun;
     public String exitMessage;
