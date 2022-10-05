@@ -60,10 +60,10 @@ public class Arena {
     private void createCoins() {
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
-            Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
+            Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 2);
             if(i > 0) {
                 while(!isValidPosition(generatedPosition)) {
-                    generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2,height - 2) + 1);
+                    generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) +  2);
                 }
             }
             coins.add(new Coin(generatedPosition.getX(), generatedPosition.getY()));
@@ -73,9 +73,9 @@ public class Arena {
     private void createMonsters() {
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_MONSTERS; i++) {
-            Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
+            Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 2);
             while(!isValidPosition(generatePosition)) {
-                generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
+                generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 2);
             }
             monsters.add(new Monster(generatePosition.getX(), generatePosition.getY()));
         }
