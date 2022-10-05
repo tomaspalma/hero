@@ -62,7 +62,7 @@ public class Arena {
         for(int i = 0; i < Game.MAX_NO_OF_COINS; i++) {
             Position generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
             if(i > 0) {
-                while(!generateValidPosition(generatedPosition)) {
+                while(!isValidPosition(generatedPosition)) {
                     generatedPosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2,height - 2) + 1);
                 }
             }
@@ -74,16 +74,25 @@ public class Arena {
         Random random = new Random();
         for(int i = 0; i < Game.MAX_NO_OF_MONSTERS; i++) {
             Position generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
-            while(!generateValidPosition(generatePosition)) {
+            while(!isValidPosition(generatePosition)) {
                 generatePosition = new Position(random.nextInt(width - 2) + 1, random.nextInt(2, height - 2) + 1);
             }
             monsters.add(new Monster(generatePosition.getX(), generatePosition.getY()));
         }
     }
 
+    private boolean verifyMonsterCollisions(Position heroPosition) {
+        for(int i = 0; i < monsters.size(); i++) {
+            if(monsters.get(i).getCurrentPosition().equals(heroPosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Verifica se a posição que um elemento vai ser gerado não vai estar em cima de nenhum outro objeto na arena
     // As paredes não contam por que já estamos a evitá-las com os limites postos na geração aleatória (width - 2) e (height - 2)
-    private boolean generateValidPosition(Position position) {
+    private boolean isValidPosition(Position position) {
         Random random = new Random();
 
         if (hero.getCurrentPosition().equals(position)) return false;
@@ -160,26 +169,19 @@ public class Arena {
         switch (key.getKeyType()) {
             case ArrowUp:
                 moveHeroTo(hero.moveUp());
-                moveMonsters();
                 break;
             case ArrowDown:
                 moveHeroTo(hero.moveDown());
-                moveMonsters();
                 break;
             case ArrowLeft:
                 moveHeroTo(hero.moveLeft());
-                moveMonsters();
                 break;
             case ArrowRight:
                 moveHeroTo(hero.moveRight());
-                moveMonsters();
                 break;
         }
         if(coins.size() == 0) {
             arenaStage = ArenaStages.WON;
-        }
-        if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-            arenaStage = ArenaStages.LOST;
         }
     }
 
@@ -194,13 +196,11 @@ public class Arena {
         }
     }
 
-    private boolean verifyMonsterCollisions(Position heroPosition) {
+    public void moveMonsters() {
         for(int i = 0; i < monsters.size(); i++) {
-            if(monsters.get(i).getCurrentPosition().equals(heroPosition)) {
-                return true;
-            }
+            monsters.get(i).move(hero.getCurrentPosition());
+
         }
-        return false;
     }
 
     // Se o herói se poder mover, movemo-lo
@@ -209,7 +209,8 @@ public class Arena {
             hero.setCurrentPosition(position.getX(), position.getY());
             if(verifyMonsterCollisions(hero.getCurrentPosition())) {
                 arenaStage = ArenaStages.LOST;
-            }3
+            }
+            moveMonsters();
             retrieveCoins(hero.getCurrentPosition());
         }
     }
@@ -221,12 +222,6 @@ public class Arena {
             }
         }
         return true;
-    }
-
-    public void moveMonsters() {
-        for(int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).move(hero.getCurrentPosition());
-        }
     }
 
     public enum ArenaStages {
