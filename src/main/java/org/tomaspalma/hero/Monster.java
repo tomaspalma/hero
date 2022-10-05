@@ -16,6 +16,7 @@ public class Monster extends Element {
         complexMove(heroPosition);
     }
 
+    /* Código para movimento totalmente aleatório
     public void simpleMove() {
         Random random = new Random();
         int control = random.nextInt(4) + 1;
@@ -33,7 +34,7 @@ public class Monster extends Element {
                 moveLeft();
                 break;
         }
-    }
+    } */
 
     public void complexMove(Position heroPosition) {
         Random random = new Random();
@@ -53,7 +54,7 @@ public class Monster extends Element {
             }
         }
 
-        setCurrentPosition(newX, newY);
+        if(!currentPosition.equals(heroPosition)) setCurrentPosition(newX, newY);
     }
 
     private void moveUp() {

@@ -199,7 +199,6 @@ public class Arena {
     public void moveMonsters() {
         for(int i = 0; i < monsters.size(); i++) {
             monsters.get(i).move(hero.getCurrentPosition());
-
         }
     }
 
