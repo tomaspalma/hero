@@ -155,7 +155,7 @@ public class Arena {
             case WON:
                 graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
-                graphics.putString(new TerminalPosition(4, 10), "You collected all coins the coins!");
+                graphics.putString(new TerminalPosition(5, 10), "You collected all the coins!");
                 graphics.putString(new TerminalPosition(4, 11), "You won!");
                 graphics.putString(new TerminalPosition(5, 12), "Press R to restart or Q to quit");
                 break;
