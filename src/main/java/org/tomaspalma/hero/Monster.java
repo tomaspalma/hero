@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+import java.util.List;
 import java.util.Random;
 
 public class Monster extends Element {
@@ -12,8 +13,8 @@ public class Monster extends Element {
         super(x, y);
     }
 
-    public void move(Position heroPosition) {
-        complexMove(heroPosition);
+    public void move(Position heroPosition, List<Monster> monsters) {
+        complexMove(heroPosition, monsters);
     }
 
     /* Código para movimento totalmente aleatório
@@ -36,10 +37,10 @@ public class Monster extends Element {
         }
     } */
 
-    public void complexMove(Position heroPosition) {
+    public void complexMove(Position heroPosition, List<Monster> monsters) {
         Random random = new Random();
         int control = random.nextInt(2) + 1, newX = currentPosition.getX(), newY = currentPosition.getY();
-        Position currentPosition = getCurrentPosition();
+        Position currentPosition = getCurrentPosition(), newPosition;
         if(control == 1) {
             if(currentPosition.isAbove(heroPosition)) {
                 newY = currentPosition.getY() + 1;
@@ -54,7 +55,12 @@ public class Monster extends Element {
             }
         }
 
-        if(!currentPosition.equals(heroPosition)) setCurrentPosition(newX, newY);
+        newPosition = new Position(newX, newY);
+        for(Monster monster: monsters) {
+            if(monster.getCurrentPosition().equals(newPosition)) return;
+        }
+
+        if(!currentPosition.equals(heroPosition)) setCurrentPosition(newPosition.getX(), newPosition.getY());
     }
 
     private void moveUp() {
@@ -91,7 +97,7 @@ public class Monster extends Element {
 
     @Override
     public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#006400"));
+        graphics.setForegroundColor(TextColor.Factory.fromString(Game.LIGHTGREEN));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "M");
     }

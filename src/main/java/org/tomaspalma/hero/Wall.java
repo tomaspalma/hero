@@ -13,7 +13,7 @@ public class Wall extends Element {
 
     @Override
     public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), drawSymbol);
     }

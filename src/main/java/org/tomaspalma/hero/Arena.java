@@ -115,7 +115,7 @@ public class Arena {
     public void draw(TextGraphics graphics) {
 
         // Definir cor do chão da arena
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.setBackgroundColor(TextColor.Factory.fromString(Game.LIGHTBLUE));
 
         // O último parâmetro é o caratér que vai aparecer em cada quadradinho que divide o quadrilátero
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
@@ -141,13 +141,13 @@ public class Arena {
                 }
                 break;
             case LOST:
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+                graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
                 graphics.putString(new TerminalPosition(5, 10), "You hit a monster! You lose!");
                 graphics.putString(new TerminalPosition(5, 11), "Press R to restart or Q to quit");
                 break;
             case WON:
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+                graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
                 graphics.putString(new TerminalPosition(4, 10), "You collected all coins the coins!");
                 graphics.putString(new TerminalPosition(4, 11), "You won!");
@@ -156,7 +156,7 @@ public class Arena {
         }
 
         // Colocar no ecrã a indicação da pontuação do jogador
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
+        graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
 
@@ -169,15 +169,19 @@ public class Arena {
         switch (key.getKeyType()) {
             case ArrowUp:
                 moveHeroTo(hero.moveUp());
+                moveMonsters();
                 break;
             case ArrowDown:
                 moveHeroTo(hero.moveDown());
+                moveMonsters();
                 break;
             case ArrowLeft:
                 moveHeroTo(hero.moveLeft());
+                moveMonsters();
                 break;
             case ArrowRight:
                 moveHeroTo(hero.moveRight());
+                moveMonsters();
                 break;
         }
         if(coins.size() == 0) {
@@ -198,7 +202,7 @@ public class Arena {
 
     public void moveMonsters() {
         for(int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).move(hero.getCurrentPosition());
+            monsters.get(i).move(hero.getCurrentPosition(), monsters);
         }
     }
 
@@ -209,7 +213,6 @@ public class Arena {
             if(verifyMonsterCollisions(hero.getCurrentPosition())) {
                 arenaStage = ArenaStages.LOST;
             }
-            moveMonsters();
             retrieveCoins(hero.getCurrentPosition());
         }
     }

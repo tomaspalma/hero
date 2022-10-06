@@ -12,7 +12,7 @@ public class Coin extends Element {
 
     @Override
     public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF00"));
+        graphics.setForegroundColor(TextColor.Factory.fromString(Game.LIGHTYELLOW));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "O");
     }
