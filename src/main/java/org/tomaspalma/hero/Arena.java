@@ -165,10 +165,6 @@ public class Arena {
         graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(0, 0), "Score: " + score);
-
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
-        graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(28, 0), "Energy: " + hero.getEnergy());
     }
 
     public void processKey(KeyStroke key) {
@@ -186,7 +182,6 @@ public class Arena {
                 moveHeroTo(hero.moveRight());
                 break;
         }
-        moveMonsters();
         if(coins.size() == 0) {
             arenaStage = ArenaStages.WON;
         }
@@ -212,12 +207,20 @@ public class Arena {
     // Se o herói se poder mover, movemo-lo
     public void moveHeroTo(Position position) {
         if(canHeroMoveTo(position)) {
-            hero.setCurrentPosition(position.getX(), position.getY());
-            if(verifyMonsterCollisions(hero.getCurrentPosition())) {
-                arenaStage = ArenaStages.LOST;
+            if(verifyMonsterCollisions(position)) {
+                decreaseHeroEnergy();
+                hero.setHeroState(Hero.HeroState.HIT_MONSTER);
+            } else {
+                hero.setCurrentPosition(position.getX(), position.getY());
+                moveMonsters();
             }
             retrieveCoins(hero.getCurrentPosition());
         }
+    }
+
+    public void decreaseHeroEnergy() {
+        hero.decreaseEnergy(decreaseEnergyFactor);
+        if(hero.getEnergy() == 0) arenaStage = ArenaStages.LOST;
     }
 
     private boolean canHeroMoveTo(Position position) {
@@ -235,7 +238,7 @@ public class Arena {
         PLAYING
     }
 
-    private final int width, height;
+    private final int width, height, decreaseEnergyFactor = 20;
     private final Hero hero = new Hero(10, 10);
     private final List<Wall> walls;
     private List<Coin> coins = new ArrayList<>();

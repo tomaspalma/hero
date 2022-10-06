@@ -21,6 +21,10 @@ public class Hero extends Element {
         this.energy = energy;
     }
 
+    public void decreaseEnergy(int decreaseFactor) {
+        energy -= decreaseFactor;
+    }
+
 
     // As quatro seguintes funções retornam a posição hipotética que o herói estivesse se movesse no sentido especificado
     // pelo nome das funções
@@ -41,14 +45,38 @@ public class Hero extends Element {
 
     }
 
-    @Override
-    public void draw(TextGraphics graphics) {
-        // Cor padrão é branco, por isso senão quisermos branco fazemos isto
-        // Se quiséssemos que o hero fosse um retângulo colocariamos backgroundcolor
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
-        graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
+    public void setHeroState(HeroState newHeroState) {
+        heroState = newHeroState;
     }
 
+    @Override
+    public void draw(TextGraphics graphics) {
+        String heroColor, scoreColor;
+        switch(heroState) {
+            case HIT_MONSTER:
+                heroColor = Game.LIGHTRED;
+                break;
+            default:
+                heroColor = Game.WHITE;
+                break;
+        }
+
+        if(energy <= 40) scoreColor = Game.LIGHTRED;
+        else scoreColor = Game.WHITE;
+
+        graphics.setForegroundColor(TextColor.Factory.fromString(heroColor));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
+
+        graphics.setForegroundColor(TextColor.Factory.fromString(scoreColor));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(28, 0), "Energy: " + getEnergy());
+    }
+
+    public enum HeroState {
+        NORMAL,
+        HIT_MONSTER,
+    }
     private int energy;
+    private HeroState heroState = HeroState.NORMAL;
 }

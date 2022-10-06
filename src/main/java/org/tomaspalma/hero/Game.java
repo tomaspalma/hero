@@ -74,6 +74,6 @@ public class Game {
     public static int WIDTH = 40, HEIGHT = 25;
     private Arena arena = new Arena(WIDTH, HEIGHT);
     public static int MAX_NO_OF_COINS = 8, MAX_NO_OF_MONSTERS = 3;
-    public static String LIGHTGREEN = "#90EE90", LIGHTBLUE = "#336699", LIGHTYELLOW = "#FFFF00", WHITE = "#FFFFFF";
+    public static String LIGHTGREEN = "#90EE90", LIGHTBLUE = "#336699", LIGHTYELLOW = "#FFFF00", WHITE = "#FFFFFF", LIGHTRED = "#FF7276";
     public static boolean IS_DEBUGGING = true;
 }
