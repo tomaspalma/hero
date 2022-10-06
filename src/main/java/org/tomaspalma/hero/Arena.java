@@ -130,6 +130,7 @@ public class Arena {
                 // Colocar os monstros no ecrã
                 for(Monster monster: monsters) {
                     monster.draw(graphics);
+                    if(Game.IS_DEBUGGING) System.out.println("Monster position: " + monster.getCurrentPosition().getX() + ", " + monster.getCurrentPosition().getY());
                 }
 
                 // Colocar o hero no ecrã
@@ -138,6 +139,11 @@ public class Arena {
                 // Colocar os delimitadores da arena no ecrã
                 for(Wall wall: walls) {
                     wall.draw(graphics);
+                }
+
+                if(Game.IS_DEBUGGING) {
+                    System.out.println("Hero: " + hero.getCurrentPosition().getX() + ", " + hero.getCurrentPosition().getY());
+                    System.out.println("-------------------");
                 }
                 break;
             case LOST:
@@ -169,21 +175,18 @@ public class Arena {
         switch (key.getKeyType()) {
             case ArrowUp:
                 moveHeroTo(hero.moveUp());
-                moveMonsters();
                 break;
             case ArrowDown:
                 moveHeroTo(hero.moveDown());
-                moveMonsters();
                 break;
             case ArrowLeft:
                 moveHeroTo(hero.moveLeft());
-                moveMonsters();
                 break;
             case ArrowRight:
                 moveHeroTo(hero.moveRight());
-                moveMonsters();
                 break;
         }
+        moveMonsters();
         if(coins.size() == 0) {
             arenaStage = ArenaStages.WON;
         }
@@ -202,7 +205,7 @@ public class Arena {
 
     public void moveMonsters() {
         for(int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).move(hero.getCurrentPosition(), monsters);
+            monsters.get(i).move(hero.getCurrentPosition(), monsters, walls);
         }
     }
 
