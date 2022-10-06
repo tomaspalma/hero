@@ -51,7 +51,8 @@ public class Hero extends Element {
 
     @Override
     public void draw(TextGraphics graphics) {
-        String heroColor, scoreColor;
+        /* Lógica para mudar a cor do hero se bater num monstro (ainda por implementar melhor)
+        String heroColor;
         switch(heroState) {
             case HIT_MONSTER:
                 heroColor = Game.LIGHTRED;
@@ -59,12 +60,14 @@ public class Hero extends Element {
             default:
                 heroColor = Game.WHITE;
                 break;
-        }
+        } */
+
+        String scoreColor;
 
         if(energy <= 40) scoreColor = Game.LIGHTRED;
         else scoreColor = Game.WHITE;
 
-        graphics.setForegroundColor(TextColor.Factory.fromString(heroColor));
+        graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(currentPosition.getX(), currentPosition.getY()), "X");
 

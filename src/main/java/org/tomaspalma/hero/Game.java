@@ -1,9 +1,7 @@
 package org.tomaspalma.hero;
 
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -64,16 +62,11 @@ public class Game {
         System.out.println(arena.exitMessage);
     }
 
-    // Enviar a tecla para a lógica da arena para influenciar o jogo mediante a tecla
-    private void processKey(KeyStroke key) throws IOException {
-        arena.processKey(key);
-    }
-
     //Attributes
     private Screen screen;
     public static int WIDTH = 40, HEIGHT = 25;
-    private Arena arena = new Arena(WIDTH, HEIGHT);
-    public static int MAX_NO_OF_COINS = 8, MAX_NO_OF_MONSTERS = 3;
+    private final Arena arena = new Arena(WIDTH, HEIGHT);
+    public static int MAX_NO_OF_COINS = 8, MAX_NO_OF_MONSTERS = 4;
     public static String LIGHTGREEN = "#90EE90", LIGHTBLUE = "#336699", LIGHTYELLOW = "#FFFF00", WHITE = "#FFFFFF", LIGHTRED = "#FF7276";
     public static boolean IS_DEBUGGING = true;
 }

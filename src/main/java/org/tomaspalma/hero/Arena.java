@@ -149,7 +149,7 @@ public class Arena {
             case LOST:
                 graphics.setForegroundColor(TextColor.Factory.fromString(Game.WHITE));
                 graphics.enableModifiers(SGR.BOLD);
-                graphics.putString(new TerminalPosition(5, 10), "You hit a monster! You lose!");
+                graphics.putString(new TerminalPosition(3, 10), "You lost you energy! You lose!");
                 graphics.putString(new TerminalPosition(5, 11), "Press R to restart or Q to quit");
                 break;
             case WON:
