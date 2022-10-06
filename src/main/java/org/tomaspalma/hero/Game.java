@@ -46,7 +46,7 @@ public class Game {
                 case Character:
                     char character = key.getCharacter();
                     if (character == 'q' || character == 'Q') screen.close();
-                    else if(/*arena.arenaStage != Arena.ArenaStages.PLAYING &&*/ (character == 'R' || character == 'r')) {
+                    else if((!IS_DEBUGGING && arena.arenaStage != Arena.ArenaStages.PLAYING) && (character == 'R' || character == 'r')) {
                         arena.reset();
                     }
                     break;
@@ -68,5 +68,5 @@ public class Game {
     private final Arena arena = new Arena(WIDTH, HEIGHT);
     public static int MAX_NO_OF_COINS = 8, MAX_NO_OF_MONSTERS = 4;
     public static String LIGHTGREEN = "#90EE90", LIGHTBLUE = "#336699", LIGHTYELLOW = "#FFFF00", WHITE = "#FFFFFF", LIGHTRED = "#FF7276";
-    public static boolean IS_DEBUGGING = true;
+    public static boolean IS_DEBUGGING = false;
 }
