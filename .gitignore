@@ -3,6 +3,7 @@
 out/
 build/
 node_modules/
+yarn.lock
 *.iml
 *.log
 /src/java/main/jdk 16.0.2
