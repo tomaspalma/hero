@@ -54,12 +54,11 @@ public class Monster extends Element {
                 newX = getCurrentPosition().getX() - 1;
             }
         }
-        
-        if (currentPosition.getX() == 0 || currentPosition.getX() == arenaWidth - 1 || currentPosition.getY() == 1 || currentPosition.getY() == arenaHeight - 1) {
-            return; 
-        }
 
         newPosition = new Position(newX, newY);
+        if (newX == 0 || newX == arenaWidth - 1 || newY == 1 || newY == arenaHeight - 1) {
+            return;
+        }
         for(Monster monster: monsters) {
             if(newPosition.equals(monster.getCurrentPosition())) return;
         }
