@@ -2,6 +2,7 @@
 .gradle/
 out/
 build/
+node_modules/
 *.iml
 *.log
 /src/java/main/jdk 16.0.2
