@@ -105,9 +105,10 @@ public class Arena {
             if(coins.get(i).getCurrentPosition().equals(position)) return false;
         }
 
-        for(int i = 0; i < walls.size(); i++) {
-            if(walls.get(i).getCurrentPosition().equals(position)) return false;
+        if (position.getX() == 0 || position.getX() == width - 1 || position.getY() == 1 || position.getY() == height - 1) {
+            return false; 
         }
+
 
         return true;
     }
@@ -200,7 +201,7 @@ public class Arena {
 
     public void moveMonsters() {
         for(int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).move(hero.getCurrentPosition(), monsters, walls);
+            monsters.get(i).move(hero.getCurrentPosition(), monsters, width, height);
         }
     }
 
@@ -224,11 +225,10 @@ public class Arena {
     }
 
     private boolean canHeroMoveTo(Position position) {
-        for(Wall wall: walls) {
-            if(wall.getCurrentPosition().equals(position)) {
-                return false;
-            }
+        if (position.getX() == 0 || position.getX() == width - 1 || position.getY() == 1 || position.getY() == height - 1) {
+            return false; 
         }
+
         return true;
     }
 

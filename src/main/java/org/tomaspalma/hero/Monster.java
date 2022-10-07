@@ -13,8 +13,8 @@ public class Monster extends Element {
         super(x, y);
     }
 
-    public void move(Position heroPosition, List<Monster> monsters, List<Wall> walls) {
-        complexMove(heroPosition, monsters, walls);
+    public void move(Position heroPosition, List<Monster> monsters, int arenaWidth, int arenaHeight) {
+        complexMove(heroPosition, monsters, arenaWidth, arenaHeight);
     }
 
     /* Código para movimento totalmente aleatório
@@ -37,7 +37,7 @@ public class Monster extends Element {
         }
     } */
 
-    public void complexMove(Position heroPosition, List<Monster> monsters, List<Wall> walls) {
+    public void complexMove(Position heroPosition, List<Monster> monsters, int arenaWidth, int arenaHeight) {
         Random random = new Random();
         int control = random.nextInt(2) + 1, newX = currentPosition.getX(), newY = currentPosition.getY();
         Position currentPosition = getCurrentPosition(), newPosition;
@@ -54,14 +54,14 @@ public class Monster extends Element {
                 newX = getCurrentPosition().getX() - 1;
             }
         }
+        
+        if (currentPosition.getX() == 0 || currentPosition.getX() == arenaWidth - 1 || currentPosition.getY() == 1 || currentPosition.getY() == arenaHeight - 1) {
+            return; 
+        }
 
         newPosition = new Position(newX, newY);
         for(Monster monster: monsters) {
             if(newPosition.equals(monster.getCurrentPosition())) return;
-        }
-
-        for(Wall wall: walls) {
-            if(newPosition.equals(wall.getCurrentPosition())) return;
         }
 
         if(newPosition.equals(heroPosition)) return;
