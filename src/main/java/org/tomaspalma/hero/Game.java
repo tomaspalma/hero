@@ -27,6 +27,12 @@ public class Game {
         }
     }
 
+    public Arena getArena() {
+        return arena;
+    }
+
+    public Screen getScreen() {return screen;}
+
     //Limpa o screen e torna-o pronto para a arena ser desenhada
     private void draw() throws IOException {
         screen.clear();

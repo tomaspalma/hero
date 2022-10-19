@@ -45,12 +45,21 @@ public class Hero extends Element {
 
     }
 
+    public String getScoreColor() {
+        return scoreColor;
+    }
+
     public void setHeroState(HeroState newHeroState) {
         heroState = newHeroState;
     }
 
+    public TextGraphics getGraphics_() {
+        return graphics_;
+    }
+
     @Override
     public void draw(TextGraphics graphics) {
+        graphics_ = graphics;
         /* Lógica para mudar a cor do hero se bater num monstro (ainda por implementar melhor)
         String heroColor;
         switch(heroState) {
@@ -61,8 +70,6 @@ public class Hero extends Element {
                 heroColor = Game.WHITE;
                 break;
         } */
-
-        String scoreColor;
 
         if(energy <= 40) scoreColor = Game.LIGHTRED;
         else scoreColor = Game.WHITE;
@@ -82,4 +89,6 @@ public class Hero extends Element {
     }
     private int energy;
     private HeroState heroState = HeroState.NORMAL;
+    public String scoreColor;
+    private TextGraphics graphics_;
 }

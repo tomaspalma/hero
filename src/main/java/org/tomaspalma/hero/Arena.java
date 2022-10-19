@@ -23,6 +23,10 @@ public class Arena {
         score = 0;
     }
 
+    public TextGraphics getGraphics_() {
+        return graphics_;
+    }
+
     public int getHeight() {
         return height;
     }
@@ -114,6 +118,8 @@ public class Arena {
     }
 
     public void draw(TextGraphics graphics) {
+
+        graphics_ = graphics;
 
         // Definir cor do chão da arena
         graphics.setBackgroundColor(TextColor.Factory.fromString(Game.LIGHTBLUE));
@@ -247,4 +253,5 @@ public class Arena {
     public boolean isGameSupposedToRun;
     public String exitMessage;
     public ArenaStages arenaStage = ArenaStages.PLAYING;
+    private TextGraphics graphics_;
 }
