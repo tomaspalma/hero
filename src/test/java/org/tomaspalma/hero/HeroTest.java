@@ -1,9 +1,11 @@
 package org.tomaspalma.hero;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.w3c.dom.Text;
 
 public class HeroTest {
@@ -51,5 +53,11 @@ public class HeroTest {
     }
 
     @Test
+    public void correctExecution() {
+        TextGraphics textGraphics = game.getScreen().newTextGraphics();
+        Hero heroMock = Mockito.mock(Hero.class);
+        heroMock.draw(textGraphics);
+        Mockito.verify(heroMock, Mockito.times(1)).draw(textGraphics);
+    }
 
 }
