@@ -25,6 +25,9 @@ public class Hero extends Element {
         energy -= decreaseFactor;
     }
 
+    public Position getCurrentPos() {
+        return currentPosition;
+    }
 
     // As quatro seguintes funções retornam a posição hipotética que o herói estivesse se movesse no sentido especificado
     // pelo nome das funções
@@ -60,16 +63,6 @@ public class Hero extends Element {
     @Override
     public void draw(TextGraphics graphics) {
         graphics_ = graphics;
-        /* Lógica para mudar a cor do hero se bater num monstro (ainda por implementar melhor)
-        String heroColor;
-        switch(heroState) {
-            case HIT_MONSTER:
-                heroColor = Game.LIGHTRED;
-                break;
-            default:
-                heroColor = Game.WHITE;
-                break;
-        } */
 
         if(energy <= 40) scoreColor = Game.LIGHTRED;
         else scoreColor = Game.WHITE;
