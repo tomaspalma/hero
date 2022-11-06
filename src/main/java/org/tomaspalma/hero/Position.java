@@ -22,12 +22,12 @@ public class Position {
     }
 
     public boolean isLeft(Position positionToCompare) {
-        if(x > positionToCompare.getX()) return false;
+        if(x >= positionToCompare.getX()) return false;
         return true;
     }
 
     public boolean isAbove(Position positionToCompare) {
-        if(y > positionToCompare.getY()) return false;
+        if(y >= positionToCompare.getY()) return false;
         return true;
     }
 
